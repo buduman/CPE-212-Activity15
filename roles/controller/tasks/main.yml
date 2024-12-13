@@ -1,0 +1,38 @@
+---
+ - name: Install Cinder (Ubuntu)
+   tags: ubuntu
+   apt:
+     name:
+       - cinder-volume
+       - python3-mysqldb
+     state: latest
+   when: ansible_distribution == "Ubuntu"
+
+ - name: Install Horizon (Ubuntu)
+   tags: ubuntu, horizon
+   apt:
+     name:
+       - openstack-dashboard
+     state: latest
+   when: ansible_distribution == "Ubuntu"
+
+ - name: Restart apache service (Ubuntu)
+   tags: ubuntu, horizon
+   systemd:
+     name: apache2
+     state: restarted
+     enabled: yes
+   when: ansible_distribution == "Ubuntu"
+
+ - name: Install Neutron (Ubuntu)
+   tags: ubuntu, neutron
+   apt:
+     name:
+       - neutron-server
+       - neutron-plugin-ml2
+       - neutron-dhcp-agent
+       - neutron-l3-agent
+       - neutron-linuxbridge-agent
+       - python3-neutronclient
+     state: latest
+   when: ansible_distribution == "Ubuntu"
